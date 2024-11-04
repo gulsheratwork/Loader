@@ -2,14 +2,53 @@
 
 // Load styles dynamically
 const style = document.createElement('style');
-style.innerHTML = `
-  .body {
+style.innerHTML = `/* Container for the entire welcome message section */
+.welcome-message-container {
+  position: absolute;
+  bottom: 20px; /* Adjust this value as needed to control how close it is to the bottom */
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px; /* Adds some padding around the message */
+  box-sizing: border-box;
+}
+
+/* Styling for the welcome message text */
+.welcome-message {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px; /* Adjust font size as needed */
+  color: #ffffff; /* Set color for text */
+  background: rgba(0, 0, 0, 0.6); /* Adds a semi-transparent background */
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+/* Button styling */
+.welcome-button {
+  margin-top: 10px; /* Space between message and button */
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #007AFF;
+  background-color: #ffffff;
+  border: 2px solid #007AFF;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Ensuring the container is at the bottom */
+.video-container {
+  position: relative; /* Positioning context for absolute positioning */
+}
+
+.body {
   font-family: 'poppins' !important;
   line-height: 1.5 !important;
 }
 
 .text-launcher {
-  display: none !important;
+  margin-top: 30px !important;
 }
 
 .loading-border {
@@ -32,27 +71,24 @@ style.innerHTML = `
 }
 
 .submitt-icon span {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #498FE1;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 10px;
+  width: 20px; height: 20px; border: 2px solid #498FE1; border-radius: 50%; display: inline-block; margin-right: 10px;
 }
 
 .chat-container {
-  Bottom: 0;
+  position: fixed;
+  bottom: 430px;
+  right: -50px;
+  width: 400px;
+  z-index: 2000;
+  display: flex;
   font-family: 'poppins' !important;
   display: flex;
-  top: 0 !important;
-  right: AUTO !important;
+  top: 50% !important;
+  right: 0 !important;
+  transform: translateY(-50%) !important;
   z-index: 1000 !important;
   width: 365px !important;
   line-height: 1.5 !important;
-  LEFT: AUTO;
-  ALIGN-ITEMS: CENTER;
-  MARGIN: AUTO;
-  POSITION: sticky;
 }
 
 @media only screen and (max-width: 480px) {
@@ -72,15 +108,36 @@ style.innerHTML = `
 }
 
 .video-thumbnail {
-  display: none !important;
+  position: relative;
+  width: 110px;
+  height: 110px;
+  padding: 5px;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .video-circle {
-  display: none !important;
+  position: relative;
+/* Important for positioning the green            dot */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: -2px 2px 8px rgba(60, 60, 60, .6);
 }
 
 .online-dot {
-  display: none !important;
+  position: absolute;
+  bottom: 0px;
+/* Adjust this value based on where you want               the dot */
+  right: 20px;
+/* Adjust this value based on where you want               the dot */
+  width: 20px;
+  height: 20px;
+  background-color: #2ECC71;
+  border-radius: 50%;
+  border: 2px solid white;
+/* Optional: Adds a small white               border around the dot */
 }
 
 #thumbnail-video {
@@ -89,18 +146,15 @@ style.innerHTML = `
   object-fit: cover;
 }
 
-#close-btn {
-  display: none !important;
-}
-
 .chat-widget {
+  display: none;
   height: 600px;
   border: 1px solid #ccc;
   border-radius: 20px;
   background-color: #fff;
   position: fixed;
   bottom: 190px;
-  right: auto !important;
+  right: 50px;
   z-index: 999;
   overflow: hidden;
   top: 50% !important;
@@ -108,6 +162,7 @@ style.innerHTML = `
   width: 350px !important;
   box-shadow: -5px 5px 8px rgba(60, 60, 60, .6);
   border: 1px solid #737373;
+  margin-top: 0px !important;
 }
 
 .video-background {
@@ -132,7 +187,7 @@ style.innerHTML = `
   position: sticky;
   top: 0;
   align-items: center;
-  z-index: 1000;
+  z-index: 3;
   padding: 10px;
 /* margin-top: 10px !important; */
   margin-right: -18px !important;
@@ -167,6 +222,7 @@ style.innerHTML = `
   height: 85%;
 }
 
+
 .message {
   font-size: 16px;
   padding: 10px 0px;
@@ -191,6 +247,8 @@ style.innerHTML = `
 }
 
 .message.user-message {
+	overflow: hidden !important;
+	max-width: 240px !important;
   background-color: hsla(0, 0%, 100%, 0.85);
   border: 2px solid #007AFF;
   color: black;
@@ -282,7 +340,7 @@ style.innerHTML = `
   height: 214px !important;
   position: relative;
   margin-bottom: 10px;
-  z-index: 1000;
+  z-index: 3;
   transition: all 0.5s ease;
   border-radius: 20px;
   overflow: hidden;
@@ -296,7 +354,7 @@ style.innerHTML = `
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2000;
+  z-index: 3;
 }
 
 #play-pause-btn, pay-pause-btn {
@@ -319,7 +377,7 @@ style.innerHTML = `
   width: 100%;
   height: 100%;
   background-color: white;
-  z-index: 9999;
+  z-index: 4;
 }
 
 h1.text-launch {
@@ -337,7 +395,7 @@ img#mute-unmute-icon {
 }
 
 .Empty-container {
-  height: 330px;
+  height: 332px;
 }
 
 .text-launch {
@@ -369,7 +427,7 @@ button#mute-unmute-btn {
 }
 
 .play-option {
-  z-index: 2000;
+  z-index: 3;
   background-color: transparent;
   border: none;
   font-size: 25px;
@@ -437,6 +495,11 @@ select#state-select, .option-select {
   display: flex;
   align-items: center;
   margin-bottom: 0px;
+}
+
+.undop {
+    margin-bottom: 0px !important;
+    margin-top: 0px !important
 }
 
 .message {
@@ -581,7 +644,7 @@ img.user-image {
   top: 15px;
   right: 20px;
   height: 30px;
-  z-index: 999;
+  z-index: 2;
   justify-content: space-between;
 }
 
@@ -628,7 +691,7 @@ img.user-image {
 /* Hidden by default */
   align-items: center;
   justify-content: center;
-  z-index: 10000;
+  z-index: 4;
 }
 
 .loading-content {
@@ -663,7 +726,7 @@ img.user-image {
 /* Adjust as needed */
   position: relative;
 /* Ensure logo stays centered */
-  left: 30px;
+left: 30px;
 }
 
 @keyframes spin {
@@ -748,8 +811,7 @@ img.user-image {
 
 /* Add this CSS to your stylesheet */
 .selected {
-  background-color: #007AFF !important;
-/* Change this color to whatever you want when selected */
+  background-color: #007AFF !important; /* Change this color to whatever you want when selected */
   color: white !important;
 }
 
@@ -777,10 +839,185 @@ input#visitorRange {
 
 .powered-style {
   margin: 0 !important;
-  padding-top: 3px !important;
+  padding-top: 5px !important;
 }
 
-`;
+#product-options .option-btn:hover {
+    color: #fff !important;
+}
+
+.chat-content {
+  height: 81%;
+}
+
+.Empty-container {
+    height: 305px;
+}
+
+.bef:hover {
+    color: white !important;
+    background-color: #007AFF !important;
+}
+
+.bef {
+  color: black !important;
+}
+
+.option-btn {
+    color: black !important;
+}
+
+button.undo-btn:hover {
+    background-color: #007aff;
+}
+
+button#submit-btn:hover {
+    background-color: #007aff;
+}
+
+.selected {
+    color: white !important;
+    background-color: #007AFF !important;
+}
+
+button#refresh-btn {
+    margin-right: 0px !important;
+}
+
+div#recommender-options .option-btn {
+    color: black !important;
+}
+
+div#recommender-options .option-btn:hover {
+    color: white !important;
+    background-color: #007AFF;
+}
+
+#product-options .option-btn:hover {
+    background-color: #127cfc !important;
+}
+
+
+.edit-btn:hover {
+    background-color: #127cfc;
+}
+
+div#live-chat-options .option-btn {
+    color: black !important;
+}
+
+#submitVisitorBtn {
+    color: black;
+}
+
+#submitVisitorBtn:hover {
+    color: black;
+}
+
+
+select {
+    display: inline-block !important;
+}
+
+
+
+.country-code-dropdown {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+#situation-options .option-btn {
+    color: black !important;
+}
+
+#situation-options .option-btn:hover {
+  color: white !important;
+}
+
+#role-options .option-btn:hover {
+  color: white !important;
+}
+
+#live-chat-options .option-btn:hover {
+  color: white !important;
+}
+
+#submitVisitorBtn:hover {
+  color: white !important;
+}
+.open-chat-button {
+  cursor: pointer;
+}
+
+@media (max-width: 430px) {
+.chat-widget{
+right: 0px;
+height: 100vh !important;
+width: 100% !important;
+  border-radius: 0px;
+  background-color: #fff;
+  position: fixed;
+  right: auto;
+  z-index: 999;
+  overflow: hidden;
+  box-shadow: -5px 5px 8px rgba(60, 60, 60, .6);
+  transform: translateY(0%) !important;
+  border: 0px solid #737373;
+  bottom: 0 !important;
+  top: -444% !important;
+  
+}
+.chat-container{
+  top: 0px !important;
+      height: 100vh;
+      width: 100% !important;
+}
+.video-background {
+height: 100vh !important;
+}
+.chat-content{
+height: 87.5% !important;
+}
+
+.chat-container {
+  position: fixed;
+  font-family: 'poppins' !important;
+  right: 0 !important;
+  transform: translateY(-0%) !important;
+  z-index: 1000 !important;
+  line-height: 1.5 !important;
+  top: 71% !important;
+  height: 16vh !important;
+  left: 0% !important;
+}
+
+.Empty-container {
+  height: 80% !important;
+}
+
+.open-tab-link {
+  top: 45px;
+  right: 20px;
+}
+
+.text-launcher {
+  top: 85%;
+  position: absolute;
+  left: 18%;
+}
+
+#video-container {
+  display: block;
+  bottom: -85%;
+  right: -65%;
+}
+
+#pay-pause-btn {
+  left: 16%;
+}
+
+
+}`;
 document.head.appendChild(style);
 
 // Create the chat widget
@@ -788,18 +1025,18 @@ const chatWidget = document.createElement('div');
 chatWidget.className = 'chat-widget';
 chatWidget.innerHTML = `
   <!-- Your HTML code here -->
-  <div class="chat-container">
+    <div class="chat-container">
         <div class="text-launcher">
             <h1 class="text-launch">👋 Try The Intake Bot</h1>
 
-            <a href="https://chatwidget.automatikpro.com/preview/real-estate" id="icw--avatar-direct-link" class="open-tab-link" target="_blank"></a>
+            <a href="https://chatwidget.automatikpro.com/the-intake-bot" id="icw--avatar-direct-link" class="open-tab-link" target="_blank" rel="noopener"></a>
         </div>
 
         <div class="video-thumbnail" id="video-container" aria-label="Open chat widget">
             <div class="video-circle">
                 <video id="thumbnail-video" autoplay loop muted>
                     <source
-                        src="https://intaker.azureedge.net/dialog-video/10-1692057740_2cc39_WidgetVideo.mp4"
+                        src="https://storage.googleapis.com/msgsndr/o8yXFeC9dfjequgTmADj/media/67254cb3eb590d0e18640c33.mp4"
                         type="video/mp4">
                 </video>
             </div>
@@ -810,7 +1047,7 @@ chatWidget.innerHTML = `
         <div class="chat-widget" id="chat-widget" aria-hidden="true">
             <div class="video-background" id="video-background">
                 <video id="background-video" autoplay loop muted>
-                    <source src="https://storage.googleapis.com/msgsndr/aJYHtddTenz299BOqzfz/media/6716af88e292f451e7f0f5f1.mp4" type="video/mp4">
+                    <source src="https://storage.googleapis.com/msgsndr/o8yXFeC9dfjequgTmADj/media/6725484582949649ceb22d7a.mp4" type="video/mp4">
                 </video>
                 <div class="progress-bar-container">
                     <div class="progress-bar" id="progress-bar"></div>
