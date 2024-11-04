@@ -3022,3 +3022,13 @@ function renderCustomerSupportWidget() {
     chatContent.appendChild(welcomeMessage);
     chatContent.appendChild(chatOptions);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const chatButtons = document.querySelectorAll('.open-chat-button'); // Yeh 'open-chat-button' class hai
+
+    chatButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            openChatWidget();
+        });
+    });
+});
