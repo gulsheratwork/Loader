@@ -1042,7 +1042,7 @@ chatWidget.innerHTML = `
 <body>
     <div class="chat-container">
         <div class="text-launcher">
-            <h1 class="text-launch">👋 Try The Intake Bot</h1>
+            <h1 class="text-launch">👋 Try The Intake Bot™</h1>
 
             <a href="https://chatwidget.automatikpro.com/the-intake-bot" id="icw--avatar-direct-link" class="open-tab-link" target="_blank" rel="noopener"></a>
         </div>
@@ -1106,7 +1106,7 @@ chatWidget.innerHTML = `
 
             <div class="chat-content" id="chat-content">
                 <div class="Empty-container"></div>
-                <div class="message ot-message">Hi 👋🏼 Let's find out if The Intake Bot can help your firm in </div>
+                <div class="message ot-message">Hi 👋🏼 Let's find out if The Intake Bot™ can help your firm in </div>
                 <div class="chat-options">
                     <button class="option-btn bef" onclick="selectOption('Go ahead', true)">Go ahead</button>
                 </div>
@@ -1341,7 +1341,7 @@ function askProductInterest(selectedQuestion) {
 
     setTimeout(() => {
         removeTypingIndicator(typingIndicator); // Remove typing indicator
-        appendMessageWithImageAndTime("What The Intake Bot products are you interested in? You can select/deselect multiple options and submit when ready.", 'bot-message', messageTime, true);
+        appendMessageWithImageAndTime("What The Intake Bot™ products are you interested in? You can select/deselect multiple options and submit when ready.", 'bot-message', messageTime, true);
 
         const productOptions = `
         <div id="product-options" class="chat-options">
@@ -1956,7 +1956,7 @@ function askInitialQuestion() {
     
     // Append message with unique class for "usingLiveChat" question
     appendMessageWithImageAndTime(
-        "Please answer a couple of questions to help us send you more information about The Intake Bot! Are you currently using a live chat on your website?", 
+        "Please answer a couple of questions to help us send you more information about The Intake Bot™! Are you currently using a live chat on your website?", 
         'bot-message question-usingLiveChat', 
         messageTime
     );
@@ -2058,7 +2058,7 @@ function askRecommenderQuestion() {
     // Push the question onto the question stack
     questionStack.push({ question: "websiteVisitors", answer: null });
     const messageTime = new Date(); // Capture the message time
-    appendMessageWithImageAndTime("Did anyone recommend The Intake Bot to you?", 'bot-message', messageTime);
+    appendMessageWithImageAndTime("Did anyone recommend The Intake Bot™ to you?", 'bot-message', messageTime);
 
     const recommenderOptions = `
         <div id="recommender-options" class="chat-options">
@@ -2165,7 +2165,7 @@ function submitData() {
     })
     .then(data => {
         const messageTime = new Date(); // Capture the message time
-        appendMessageWithImageAndTime("Thank you for contacting The Intake Bot. One of our account executives will contact you shortly. We are looking forward to learning more about your firm!", 'bot-message', messageTime);
+        appendMessageWithImageAndTime("Thank you for contacting The Intake Bot™. One of our account executives will contact you shortly. We are looking forward to learning more about your firm!", 'bot-message', messageTime);
         addCustomHTMLSection(); // Show the thank-you section with scheduling option
     })
     .catch(error => {
@@ -2212,7 +2212,7 @@ function addCustomHTMLSection() {
                 padding-left: 10px;
                 padding-right: 10px;
                 margin-bottom: 10px;
-            ">Schedule a short call to see if The Intake Bot is a good fit for your business.</p>
+            ">Schedule a short call to see if The Intake Bot™ is a good fit for your business.</p>
             <a id="schedule-meeting-btn" href="https://api.theintakebot.com/widget/bookings/theintakebot-intro-chat-widget" target="_blank" style="text-decoration: none;" rel="noopener">
                 <button class="appointment-button" style="
                     text-align: center;
@@ -2870,7 +2870,7 @@ function renderChatWidget() {
     // Welcome message
     const welcomeMessage = document.createElement('div');
     welcomeMessage.className = 'message ot-message';
-    welcomeMessage.textContent = `Hi 👋🏼 Let's find out if The Intake Bot can help your firm in`;
+    welcomeMessage.textContent = `Hi 👋🏼 Let's find out if The Intake Bot™ can help your firm in`;
 
     // Chat options
     const chatOptions = document.createElement('div');
@@ -3005,7 +3005,7 @@ function renderCustomerSupportWidget() {
     // Welcome message
     const welcomeMessage = document.createElement('div');
     welcomeMessage.className = 'message ot-message';
-    welcomeMessage.textContent = `Hi 👋🏼 Let's find out if The Intake Bot can help your firm in`;
+    welcomeMessage.textContent = `Hi 👋🏼 Let's find out if The Intake Bot™ can help your firm in`;
 
     // Chat options
     const chatOptions = document.createElement('div');
