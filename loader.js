@@ -964,7 +964,7 @@ width: 100% !important;
   transform: translateY(0%) !important;
   border: 0px solid #737373;
   bottom: 0 !important;
-  top: -444% !important;
+  top: -1063% !important;
   
 }
 .chat-container{
@@ -986,8 +986,8 @@ height: 87.5% !important;
   transform: translateY(-0%) !important;
   z-index: 1000 !important;
   line-height: 1.5 !important;
-  top: 71% !important;
-  height: 16vh !important;
+  top: 85% !important;
+  height: 8vh !important;
   left: 0% !important;
 }
 
@@ -1008,7 +1008,7 @@ height: 87.5% !important;
 
 #video-container {
   display: block;
-  bottom: -85%;
+  bottom: 0%;
   right: -65%;
 }
 
