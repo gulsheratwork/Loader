@@ -1640,6 +1640,7 @@ function formatTimeAgo(date) {
 }
 
 function askCashSave() { 
+    debugger
     // Push the correct question type onto the question stack
     questionStack.push({ question: "situation", answer: null });
 
@@ -1687,13 +1688,15 @@ function handleCashSave() {
 
 
 function askIndustry() {
-    debugger
+    debugger;
     // Push the question onto the question stack
     questionStack.push({ question: "situation", answer: null });
     const typingIndicator = showTypingIndicator();
     setTimeout(() => {
         removeTypingIndicator(typingIndicator);
-        appendMessage("We serve a variety of industries! What is your industry?", 'bot-message');
+        
+        const messageTime = new Date(); // Capture the message time
+        appendMessageWithImageAndTime("We serve a variety of industries! What is your industry?", 'bot-message', messageTime, true);
         
         const industryOptions = `
         <div id="industry-options" class="chat-options">
@@ -1721,6 +1724,7 @@ function askIndustry() {
         scrollToBottom();
     }, 1000);
 }
+
 
 function handleIndustry() {
     const industry = document.getElementById('industry-select').value;
