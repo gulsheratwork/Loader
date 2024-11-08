@@ -248,7 +248,7 @@ style.innerHTML = `/* Container for the entire welcome message section */
     color: black !important;
 }
 
-button.dropdown-btn:hover {
+button.dropdown-btn:hover, .dropdown-btn:focus {
     background-color: transparent;
 }
 
