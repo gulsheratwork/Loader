@@ -245,6 +245,11 @@ style.innerHTML = `/* Container for the entire welcome message section */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: black !important;
+}
+
+button.dropdown-btn:hover {
+    background-color: transparent;
 }
 
 /* Dropdown content styling */
@@ -256,7 +261,7 @@ style.innerHTML = `/* Container for the entire welcome message section */
     margin-top: 8px;
     padding: 10px;
     width: 100%;
-    max-width: 93%;
+    max-width: 100%;
 }
 
 .dropdown-content label {
@@ -705,6 +710,10 @@ img.user-image {
 /* background-color: black; */
   top: 80px;
   right: 160px;
+}
+
+button.submit-icon:hover {
+    background-color: #007aff;
 }
 
 .footer {
