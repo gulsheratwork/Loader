@@ -233,6 +233,38 @@ style.innerHTML = `/* Container for the entire welcome message section */
   position: relative;
 }
 
+.dropdown-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Dropdown content styling */
+.dropdown-content {
+    display: none;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 8px;
+    padding: 10px;
+    width: 100%;
+    max-width: 93%;
+}
+
+.dropdown-content label {
+    display: block;
+    padding: 8px 0;
+    font-size: 16px;
+}
+
 .message.bot-message {
   color: black;
   margin-right: auto;
@@ -248,7 +280,7 @@ style.innerHTML = `/* Container for the entire welcome message section */
 
 .message.user-message {
 	overflow: hidden !important;
-	max-width: 240px !important;
+	max-width: 65% !important;
   background-color: hsla(0, 0%, 100%, 0.85);
   border: 2px solid #007AFF;
   color: black;
@@ -284,6 +316,8 @@ style.innerHTML = `/* Container for the entire welcome message section */
   color: white;
 }
 
+
+
 .input-group {
   display: block;
   justify-content: space-between;
@@ -298,7 +332,7 @@ style.innerHTML = `/* Container for the entire welcome message section */
   border-radius: 5px;
   font-size: 14px;
   margin-bottom: 10px;
-  margin-right: 5px;
+  margin-right: 0px;
   border: 2px solid #007AFF !important;
 }
 
@@ -482,9 +516,12 @@ img#play-pause-icon.play-option {
   border-radius: 50px;
 }
 
+.option-btn:hover {
+    color: white !important;
+}
+
 select#state-select, .option-select {
-  width: 97%;
-  margin-left: 2px;
+  width: 100%;
   padding: 10px 6px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -524,12 +561,12 @@ select#state-select, .option-select {
 select.country-code-dropdown {
   margin-right: 7px;
   width: 28%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   margin-top: -12px;
   border-width: 2px;
   border-color: #007AFF;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .text-launch:after {
@@ -547,8 +584,14 @@ select.country-code-dropdown {
 }
 
 .option-select {
-  padding: 10px;
-  margin-bottom: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 2px solid #007aff;
+    font-weight: 500;
+    font-family: 'Poppins';
+    border-radius: 10px;
 }
 
 .message.ot-message {
@@ -601,7 +644,7 @@ img.user-image {
 }
 
 .first-name {
-  width: 47% !important;
+  width: 48.4% !important;
 }
 
 .phone-num {
@@ -1292,13 +1335,18 @@ function askSituation() {
         appendMessageWithImageAndTime("Are you looking to grow your Law Firm? 📈", 'bot-message', messageTime);
 
         const situationOptions = `
-<div id="situation-options" class="chat-options">
-    <button class="option-btn" onclick="handleSituationOption('Yes')">Yes</button>
-    <button class="option-btn" onclick="handleSituationOption('No')">No</button>
-    <button class="option-btn" onclick="handleSituationOption('I don\\'t have a Law Firm')">I don't have a Law Firm</button>
-</div>
-`;
-
+        <div id="situation-options" class="chat-options">
+            <select id="situation-select" class="option-select">
+                <option class="opt-cstm" value="" disabled selected>Select an option</option>
+                <option class="opt-cstm" value="Yes">Yes</option>
+                <option class="opt-cstm" value="No">No</option>
+                <option class="opt-cstm" value="I don't have a Law Firm">I don't have a Law Firm</option>
+            </select>
+            <button class="submit-icon" onclick="handleSituation()">
+              <img src="https://storage.googleapis.com/msgsndr/aJYHtddTenz299BOqzfz/media/66fa91a7923b423d630ec12e.png" alt="submit">
+            </button>
+        </div>
+        `;
 
         const inputGroup = document.createElement('div');
         inputGroup.innerHTML = situationOptions;
@@ -1307,25 +1355,31 @@ function askSituation() {
     }, 1000);
 }
 
-function handleSituationOption(option) {
+function handleSituation() {
+    const situation = document.getElementById('situation-select').value;
+    if (!situation) {
+        alert('Please select an option');
+        return;
+    }
+
     // Remove the options after selection
     document.getElementById('situation-options').remove();
     
     // Store the user's choice and show it in the chat with an Undo option
-    collectedData.situation = option;
-    appendSubmittedMessage(option, 'user-message', true); // Pass 'true' to enable the Undo button
-    questionStack[questionStack.length - 1].answer = option; // Update the answer in the question stack
+    appendSubmittedMessage(situation, 'user-message', true); // Pass 'true' to enable the Undo button
+    collectedData.situation = situation; // Only set the situation data
+    questionStack[questionStack.length - 1].answer = situation; // Update the answer in the question stack
 
     // Proceed to the next question based on the option selected
-    if (option === 'Yes') {
+    if (situation === 'Yes') {
         setTimeout(() => askProductInterest('situation'), 1000);
-    }
-     else if (option === 'No') {
+    } else if (situation === 'No') {
         setTimeout(() => askCashSave(), 1000);
     } else {
         setTimeout(() => askIndustry(), 1000);
     }
 }
+
 
 
 function askProductInterest(selectedQuestion) {
@@ -1335,24 +1389,28 @@ function askProductInterest(selectedQuestion) {
         questionStack.push({ question: "situation", answer: null });
     }
 
-
     const typingIndicator = showTypingIndicator();
     const messageTime = new Date(); // Capture message time
 
     setTimeout(() => {
         removeTypingIndicator(typingIndicator); // Remove typing indicator
-        appendMessageWithImageAndTime("What The Intake Bot™ products are you interested in? You can select/deselect multiple options and submit when ready.", 'bot-message', messageTime, true);
+        appendMessageWithImageAndTime("Which Intake Bot™ products are you interested in? Select and submit when ready.", 'bot-message', messageTime, true);
 
         const productOptions = `
         <div id="product-options" class="chat-options">
-            <button class="option-btn" id="website-chat" onclick="toggleProductOption('Website Chat', 'website-chat', true)">Website Chat</button>
-            <button class="option-btn" id="live-call-connect" onclick="toggleProductOption('Live Call-Connect', 'live-call-connect')">Live Call-Connect</button>
-            <button class="option-btn" id="texting" onclick="toggleProductOption('Texting', 'texting')">Texting</button>
-            <button class="option-btn" id="one-click-retainers" onclick="toggleProductOption('1-click Retainers', 'one-click-retainers')">1-click Retainers</button>
-            <button class="option-btn" id="lsa-responder" onclick="toggleProductOption('LSA Responder', 'lsa-responder')">LSA Responder</button>
-            <button id="submit-btn" class="submit-icon" onclick="handleSubmitProductInterest()" style="display: none;">
-              <img src="https://storage.googleapis.com/msgsndr/aJYHtddTenz299BOqzfz/media/66fa91a7923b423d630ec12e.png" alt="submit">
-            </button>
+            <div class="dropdown">
+                <button class="dropdown-btn" onclick="toggleDropdown()">Select Products</button>
+                <div class="dropdown-content" id="dropdown-content">
+                    <label><input type="checkbox" value="Website Chat" /> Website Chat</label>
+                    <label><input type="checkbox" value="Live Call-Connect" /> Live Call-Connect</label>
+                    <label><input type="checkbox" value="Texting" /> Texting</label>
+                    <label><input type="checkbox" value="1-click Retainers" /> 1-click Retainers</label>
+                    <label><input type="checkbox" value="LSA Responder" /> LSA Responder</label>
+                    <button id="submit-btn" class="submit-icon" onclick="handleSubmitProductInterest()">
+                      <img src="https://storage.googleapis.com/msgsndr/aJYHtddTenz299BOqzfz/media/66fa91a7923b423d630ec12e.png" alt="submit">
+                    </button>
+                </div>
+            </div>
         </div>
         `;
 
@@ -1363,34 +1421,22 @@ function askProductInterest(selectedQuestion) {
     }, 1000);
 }
 
-let selectedProducts = [];
-
-function toggleProductOption(product, elementId) {
-    const element = document.getElementById(elementId);
-
-    if (selectedProducts.includes(product)) {
-        // Deselect product
-        selectedProducts = selectedProducts.filter(p => p !== product);
-        element.classList.remove('selected');
-    } else {
-        // Select product
-        selectedProducts.push(product);
-        element.classList.add('selected');
-    }
-
-    // Show or hide submit button based on selection
-    if (selectedProducts.length > 0) {
-        document.getElementById('submit-btn').style.display = 'inline-block';
-    } else {
-        document.getElementById('submit-btn').style.display = 'none';
-    }
-    scrollToBottom();
+function toggleDropdown() {
+    const dropdownContent = document.getElementById("dropdown-content");
+    dropdownContent.style.display = dropdownContent.style.display === "none" || dropdownContent.style.display === "" ? "block" : "none";
+    scrollToBottom(); // Ensure scroll to bottom after toggling the dropdown
 }
 
 function handleSubmitProductInterest() {
+    const checkboxes = document.querySelectorAll("#dropdown-content input[type='checkbox']");
+    const selectedProducts = Array.from(checkboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+
     if (selectedProducts.length === 0) {
         const messageTime = new Date();
         appendMessageWithImageAndTime("Please select at least one product before submitting.", 'bot-message', messageTime, true);
+        scrollToBottom(); // Ensure scroll to bottom if no option selected and message is shown
     } else {
         const submittedProductsMessage = `${selectedProducts.join(', ')}`;
         appendSubmittedMessage(submittedProductsMessage, 'user-message', true); // Pass true to show undo button
@@ -1398,11 +1444,14 @@ function handleSubmitProductInterest() {
         questionStack[questionStack.length - 1].answer = selectedProducts; // Update the last question stack with answer
 
         document.getElementById('product-options').style.display = 'none'; // Hide options after submission
-        removeInputGroup();
-        scrollToBottom();
+        scrollToBottom(); // Ensure scroll to bottom after hiding options
+
         setTimeout(() => askRoleAtLawFirm(), 1000); // Proceed to next question
     }
 }
+
+
+
 
 function appendSubmittedMessage(message, className, isUndo = false) {
     const chatContent = document.getElementById('chat-content');
@@ -1432,7 +1481,7 @@ function appendSubmittedMessage(message, className, isUndo = false) {
 
 function askRoleAtLawFirm() {
     // Push the correct question type onto the question stack
-    questionStack.push({ question: "productInterest", answer: null }); // Changed "situation" to "role"
+    questionStack.push({ question: "productInterest", answer: null });
     
     const typingIndicator = showTypingIndicator();
     const messageTime = new Date(); // Capture the message time
@@ -1443,13 +1492,19 @@ function askRoleAtLawFirm() {
         // Bot message with message time
         appendMessageWithImageAndTime("What do you do at your Law Firm?", 'bot-message', messageTime, true);
 
-        // Create buttons for role options
+        // Create dropdown for role options
         const roleOptions = `
         <div id="role-options" class="chat-options">
-            <button class="option-btn" onclick="handleRoleSelection('Owner')">Owner</button>
-            <button class="option-btn" onclick="handleRoleSelection('Marketer')">Marketer</button>
-            <button class="option-btn" onclick="handleRoleSelection('Partner')">Partner</button>
-            <button class="option-btn" onclick="handleRoleSelection('Other')">Other</button>
+            <select id="role-select" class="option-select">
+                <option class="opt-cstm" value="" disabled selected>Select your role</option>
+                <option class="opt-cstm" value="Owner">Owner</option>
+                <option class="opt-cstm" value="Marketer">Marketer</option>
+                <option class="opt-cstm" value="Partner">Partner</option>
+                <option class="opt-cstm" value="Other">Other</option>
+            </select>
+            <button class="submit-icon" onclick="handleRoleSelection()">
+              <img src="https://storage.googleapis.com/msgsndr/aJYHtddTenz299BOqzfz/media/66fa91a7923b423d630ec12e.png" alt="submit">
+            </button>
         </div>
         `;
 
@@ -1462,7 +1517,14 @@ function askRoleAtLawFirm() {
 }
 
 // Function to handle role selection with undo functionality
-function handleRoleSelection(role) {
+function handleRoleSelection() {
+    const role = document.getElementById('role-select').value;
+    
+    if (!role) {
+        alert('Please select a role');
+        return;
+    }
+
     // Remove the role options immediately
     document.getElementById('role-options').remove();
 
@@ -1477,6 +1539,7 @@ function handleRoleSelection(role) {
     // Proceed to the next question (ask for the name)
     setTimeout(() => askFullName(), 1000);
 }
+
 
 function handleUndo() {
     if (questionStack.length > 0) {
@@ -1640,7 +1703,6 @@ function formatTimeAgo(date) {
 }
 
 function askCashSave() { 
-    debugger
     // Push the correct question type onto the question stack
     questionStack.push({ question: "situation", answer: null });
 
@@ -1653,10 +1715,16 @@ function askCashSave() {
         // Bot message with message time and an option to display image
         appendMessageWithImageAndTime("What if I could help you save some cash 💵?", 'bot-message', messageTime, true);
 
-        // Create button for cash save option
+        // Create dropdown for cash save option
         const cashSaveOption = `
         <div id="cash-save-options" class="chat-options">
-            <button class="option-btn" onclick="handleCashSave()">Okay, I'm listening!</button>
+            <select id="cash-save-select" class="option-select">
+                <option class="opt-cstm" value="" disabled selected>Select an option</option>
+                <option class="opt-cstm" value="Okay, I'm listening!">Okay, I'm listening!</option>
+            </select>
+            <button class="submit-icon" onclick="handleCashSave()">
+              <img src="https://storage.googleapis.com/msgsndr/aJYHtddTenz299BOqzfz/media/66fa91a7923b423d630ec12e.png" alt="submit">
+            </button>
         </div>
         `;
 
@@ -1668,15 +1736,22 @@ function askCashSave() {
     }, 1000);
 }
 
-// Function to handle cash save selection with undo functionality
+// Updated handleCashSave function to handle dropdown selection
 function handleCashSave() {
+    const cashSaveOption = document.getElementById('cash-save-select').value;
+    
+    if (!cashSaveOption) {
+        alert('Please select an option');
+        return;
+    }
+
     // Remove the cash save options immediately
     document.getElementById('cash-save-options').remove();
 
     // Append the user's choice to the chat
-    appendSubmittedMessage("Okay, I'm listening!", 'user-message', true); // Add 'true' to show the undo button
+    appendSubmittedMessage(cashSaveOption, 'user-message', true); // Add 'true' to show the undo button
     collectedData.cashSaveInterest = true; // Collect this data point
-    questionStack[questionStack.length - 1].answer = "Okay, I'm listening!"; // Update the last question stack with answer
+    questionStack[questionStack.length - 1].answer = cashSaveOption; // Update the last question stack with answer
 
     // Scroll to the bottom after user's choice is added
     scrollToBottom();
@@ -1687,8 +1762,8 @@ function handleCashSave() {
 
 
 
+
 function askIndustry() {
-    debugger;
     // Push the question onto the question stack
     questionStack.push({ question: "situation", answer: null });
     const typingIndicator = showTypingIndicator();
@@ -1724,7 +1799,6 @@ function askIndustry() {
         scrollToBottom();
     }, 1000);
 }
-
 
 function handleIndustry() {
     const industry = document.getElementById('industry-select').value;
@@ -1878,7 +1952,6 @@ function updateTimeAgo(element, messageTime) {
 }
 
 function askPhoneNumber() {
-    debugger
     questionStack.push({ question: "situation", answer: null });
     const typingIndicator = showTypingIndicator();
     setTimeout(() => {
@@ -1961,39 +2034,56 @@ function askInitialQuestion() {
         messageTime
     );
 
-    // Add unique class to options container
+    // Create dropdown for live chat options
     const initialOptions = `
         <div id="live-chat-options" class="chat-options question-usingLiveChat">
-            <button class="option-btn" onclick="handleLiveChatOption('Yes, We have chat')">Yes, We have chat</button>
-            <button class="option-btn" onclick="handleLiveChatOption('No')">No</button>
+            <select id="live-chat-select" class="option-select">
+                <option class="opt-cstm" value="" disabled selected>Select an option</option>
+                <option class="opt-cstm" value="Yes, We have chat">Yes, We have chat</option>
+                <option class="opt-cstm" value="No">No</option>
+            </select>
+            <button class="submit-icon" onclick="handleLiveChatOption()">
+              <img src="https://storage.googleapis.com/msgsndr/aJYHtddTenz299BOqzfz/media/66fa91a7923b423d630ec12e.png" alt="submit">
+            </button>
         </div>
     `;
+
     document.getElementById('chat-content').insertAdjacentHTML('beforeend', initialOptions);
     scrollToBottom();
 }
 
-function handleLiveChatOption(option) {
+// Updated handleLiveChatOption function to handle dropdown selection
+function handleLiveChatOption() {
+    const liveChatOption = document.getElementById('live-chat-select').value;
+    
+    if (!liveChatOption) {
+        alert('Please select an option');
+        return;
+    }
+
+    // Remove the options after selection
     document.getElementById('live-chat-options').remove();
     
     // Append the user's choice with the unique class
-    appendSubmittedMessage(option, 'user-message question-usingLiveChat', true); // Add 'true' to show the Undo button
-    collectedData.usingLiveChat = option; // Collect the user's choice
-    questionStack[questionStack.length - 1].answer = option; // Update the last question stack with answer
+    appendSubmittedMessage(liveChatOption, 'user-message question-usingLiveChat', true); // Add 'true' to show the Undo button
+    collectedData.usingLiveChat = liveChatOption; // Collect the user's choice
+    questionStack[questionStack.length - 1].answer = liveChatOption; // Update the last question stack with answer
 
     scrollToBottom();
 
     // Proceed based on the selected option
-    if (option === 'Yes') {
-        setTimeout(() => askLeadsPerMonth(), 1000);
+    if (liveChatOption === 'Yes, We have chat') {
+        setTimeout(() => askWebsiteVisitors(), 1000);
     } else {
         setTimeout(() => askWebsiteVisitors(), 1000);
     }
 }
 
 
+
 function askLeadsPerMonth() {
     // Push the question onto the question stack
-    questionStack.push({ question: "leadsPerMonth", answer: null });
+    questionStack.push({ question: "initialQuestion", answer: null });
     const messageTime = new Date(); // Capture the message time
     appendMessageWithImageAndTime("How many leads do you receive from your chat every month? A rough estimate works!", 'bot-message', messageTime);
 
@@ -2060,30 +2150,47 @@ function askRecommenderQuestion() {
     const messageTime = new Date(); // Capture the message time
     appendMessageWithImageAndTime("Did anyone recommend The Intake Bot™ to you?", 'bot-message', messageTime);
 
+    // Create dropdown for recommender options
     const recommenderOptions = `
         <div id="recommender-options" class="chat-options">
-            <button class="option-btn" onclick="handleRecommenderOption('Yes')">Yes, someone did</button>
-            <button class="option-btn" onclick="handleRecommenderOption('Nope')">Nope</button>
+            <select id="recommender-select" class="option-select">
+                <option class="opt-cstm" value="" disabled selected>Select an option</option>
+                <option class="opt-cstm" value="Yes">Yes, someone did</option>
+                <option class="opt-cstm" value="Nope">Nope</option>
+            </select>
+            <button class="submit-icon" onclick="handleRecommenderOption()">
+              <img src="https://storage.googleapis.com/msgsndr/aJYHtddTenz299BOqzfz/media/66fa91a7923b423d630ec12e.png" alt="submit">
+            </button>
         </div>
     `;
     document.getElementById('chat-content').insertAdjacentHTML('beforeend', recommenderOptions);
     scrollToBottom();
 }
 
-function handleRecommenderOption(option) {
+// Updated handleRecommenderOption function to handle dropdown selection
+function handleRecommenderOption() {
+    const recommenderOption = document.getElementById('recommender-select').value;
+    
+    if (!recommenderOption) {
+        alert('Please select an option');
+        return;
+    }
+
+    // Remove the options after selection
     document.getElementById('recommender-options').remove(); // Hide options after selection
 
     // Append the user's choice with Undo functionality
-    appendSubmittedMessage(option, 'user-message', true); // Add 'true' to show the Undo button
-    collectedData.recommender = option; // Collect the answer
-    questionStack[questionStack.length - 1].answer = option; // Update the last question stack with the answer
+    appendSubmittedMessage(recommenderOption, 'user-message', true); // Add 'true' to show the Undo button
+    collectedData.recommender = recommenderOption; // Collect the answer
+    questionStack[questionStack.length - 1].answer = recommenderOption; // Update the last question stack with the answer
 
-    if (option === 'Yes') {
+    if (recommenderOption === 'Yes') {
         setTimeout(() => askRecommenderName(), 1000);
     } else {
         setTimeout(() => askFinalQuestion(), 1000);
     }
 }
+
 
 function askRecommenderName() {
     questionStack.push({ question: "recommenderQuestion", answer: null });
@@ -2130,29 +2237,62 @@ function handleFinalQuestionInput(finalQuestion) {
 }
 
 function submitData() {
-    console.log("Final collectedData before submission:", collectedData); // Add this line
+    console.log("Final collectedData before submission:", collectedData);
 
-    const payload = {
-        "Situation": collectedData.situation || '',
-        "Product Interest": collectedData.productInterest ? collectedData.productInterest.join(', ') : '',
-        "Role at Law Firm": collectedData.roleAtLawFirm || '',
-        "Cash Save Interest": collectedData.cashSaveInterest || '',
-        "Industry": collectedData.industry || '',
-        "Full Name": `${collectedData.firstName || ''} ${collectedData.lastName || ''}`,
-        "Phone Number": collectedData.phone || '',
-        "Email": collectedData.email || '',
-        "Using Live Chat": collectedData.usingLiveChat || '',
-        "Leads Per Month": collectedData.leadsPerMonth || '',
-        "Website Visitors Per Month": collectedData.visitorsPerMonth || '',
-        "Recommender": collectedData.recommender || '',
-        "Recommender Name": collectedData.recommenderName || '',
-        "Final Question": collectedData.finalQuestion || ''
+    // Define questions for each field
+    const questions = {
+        situation: "Are you looking to grow your Law Firm?",
+        productInterest: "Which Intake Bot™ products are you interested in?",
+        roleAtLawFirm: "What do you do at your Law Firm?",
+        cashSaveInterest: "What if I could help you save some cash?",
+        industry: "What is your industry?",
+        fullName: "Great! Your business is qualified. I'd like to send you a limited-time special offer: 20% off your first month. May I ask for your full name (first and last)?",
+        phone: "What's the best phone number to reach you?",
+        email: "And an email address?",
+        usingLiveChat: "Are you currently using a live chat on your website?",
+        leadsPerMonth: "How many leads do you receive from your chat every month?",
+        visitorsPerMonth: "How many website visitors do you have on your site every month?",
+        recommender: "Did anyone recommend The Intake Bot™ to you?",
+        recommenderName: "What's their name?",
+        finalQuestion: "Are there any other questions I should pass to my team before they reach out?"
     };
-    
 
-    console.log("Payload to be submitted:", payload); // Add this line
+    // Generate the payload dynamically, including "None" for unanswered questions
+    const payload = {
+        "Situation Question": questions.situation,
+        "Situation Answer": collectedData.situation || "Skipped",
+        "Product Interest Question": questions.productInterest,
+        "Product Interest Answer": (collectedData.productInterest || []).join(', ') || "Skipped",
+        "Role at Law Firm Question": questions.roleAtLawFirm,
+        "Role at Law Firm Answer": collectedData.roleAtLawFirm || "Skipped",
+        "Cash Save Interest Question": questions.cashSaveInterest,
+        "Cash Save Interest Answer": collectedData.cashSaveInterest || "Skipped",
+        "Industry Question": questions.industry,
+        "Industry Answer": collectedData.industry || "Skipped",
+        "Full Name Question": questions.fullName,
+        "Full Name Answer": `${collectedData.firstName || ''} ${collectedData.lastName || ''}`.trim() || "Skipped",
+        "Phone Number Question": questions.phone,
+        "Phone Number Answer": collectedData.phone || "Skipped",
+        "Email Question": questions.email,
+        "Email Answer": collectedData.email || "Skipped",
+        "Using Live Chat Question": questions.usingLiveChat,
+        "Using Live Chat Answer": collectedData.usingLiveChat || "Skipped",
+        "Leads Per Month Question": questions.leadsPerMonth,
+        "Leads Per Month Answer": collectedData.leadsPerMonth || "Skipped",
+        "Website Visitors Per Month Question": questions.visitorsPerMonth,
+        "Website Visitors Per Month Answer": collectedData.visitorsPerMonth || "Skipped",
+        "Recommender Question": questions.recommender,
+        "Recommender Answer": collectedData.recommender || "Skipped",
+        "Recommender Name Question": questions.recommenderName,
+        "Recommender Name Answer": collectedData.recommenderName || "Skipped",
+        "Final Question Question": questions.finalQuestion,
+        "Final Question Answer": collectedData.finalQuestion || "Skipped"
+    };
 
-    fetch("https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZjMDYzNDA0MzU1MjZmNTUzZDUxMzMi_pc", {
+    console.log("Payload to be submitted:", payload);
+
+    // Send the payload to the webhook
+    fetch("https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZjMDYzMzA0M2Q1MjZlNTUzNzUxMzQi_pc", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -2164,15 +2304,19 @@ function submitData() {
         return response.json();
     })
     .then(data => {
-        const messageTime = new Date(); // Capture the message time
+        const messageTime = new Date();
         appendMessageWithImageAndTime("Thank you for contacting The Intake Bot™. One of our account executives will contact you shortly. We are looking forward to learning more about your firm!", 'bot-message', messageTime);
         addCustomHTMLSection(); // Show the thank-you section with scheduling option
     })
     .catch(error => {
         console.error('Error:', error);
-        appendMessage("Error submitting data. Please refresh the page talk with chat widget again.", 'bot-message');
+        appendMessage("Error submitting data. Please refresh the page and talk with the chat widget again.", 'bot-message');
     });
 }
+
+
+
+
 
 function addCustomHTMLSection() {
     const chatContent = document.getElementById('chat-content');
@@ -2298,7 +2442,7 @@ function createInputGroup(placeholder, callback, value = '', type = 'text', incl
       secondInputField.className = 'input-field';
       secondInputField.type = type;
       secondInputField.placeholder = secondPlaceholder;
-      secondInputField.style = 'padding: 10px; border-radius: 10px; border: 1px solid #ddd; width: 47%; display: inline-block; box-sizing: border-box;';
+      secondInputField.style = 'padding: 10px; border-radius: 10px; border: 1px solid #ddd; width: 48.4%; display: inline-block; box-sizing: border-box;';
       inputGroup.appendChild(secondInputField);
 
       const submitIcon = createSubmitIcon(() => callback(inputField.value, secondInputField.value));
