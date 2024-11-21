@@ -2366,7 +2366,7 @@ function addCustomHTMLSection() {
                 padding-right: 10px;
                 margin-bottom: 10px;
             ">Schedule a short call to see if The Intake Bot™ is a good fit for your business.</p>
-            <a id="schedule-meeting-btn" href="https://api.theintakebot.com/widget/bookings/theintakebot-intro-chat-widget" target="_blank" style="text-decoration: none;" rel="noopener">
+            <a id="schedule-meeting-btn" href="https://api.theintakebot.com/widget/bookings/theintakebot" target="_blank" style="text-decoration: none;" rel="noopener">
                 <button class="appointment-button" style="
                     text-align: center;
                     margin-left: auto;
